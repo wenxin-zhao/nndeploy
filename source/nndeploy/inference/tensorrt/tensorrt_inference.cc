@@ -445,7 +445,8 @@ base::Status TensorRtInference::initWithOnnxModel(
   }
 
   base::UniquePtr<nvinfer1::IHostMemory> plan{
-      builder_->buildSerializedNetwork(*network_, *build_config)};
+      // builder_->buildSerializedNetwork(*network_, *build_config)};
+      builder_->buildCudaEngine(*network_)->serialize()};
   if (!plan) {
     NNDEPLOY_LOGE("buildSerializedNetwork failed!\n");
     return base::kStatusCodeErrorInferenceTensorRt;
